@@ -1,0 +1,55 @@
+version: '2'
+
+services:
+  cassandra:
+    image: cassandra
+    dns: ${COREOS_PRIVATE_IPV4}
+    dns_search: service.consul
+    volumes:
+      - cassandradata:/var/lib/cassandra
+    ports:
+      - 7199:7199
+    expose:
+      - 9160
+    environment:
+      - CASSANDRA_START_RPC=true
+      - SERVICE_NAME=cassandra
+
+  kairosdb:
+    image: stakater/kairosdb-with-consul-template
+    dns: ${COREOS_PRIVATE_IPV4}
+    dns_search: service.consul
+    volumes:
+      - kairoslog:/opt/kairosdb/log
+      - kairosdata:/data
+    ports:
+      - 8080:8080
+    expose:
+      - 4242
+    environment:
+      - REPFACTOR=1
+      - PORT_TELNET=4242
+      - PORT_HTTP=8080
+      - SERVICE_NAME=kairosdb
+
+  collectd:
+    build: stakater/collectd
+
+  grafana:
+    image: stakater/grafana-with-consul-template
+    dns: ${COREOS_PRIVATE_IPV4}
+    dns_search: service.consul
+    ports:
+      - 3000:3000    
+    volumes:
+      - grafanadata:/var/lib/grafana
+    environment:
+      - GF_INSTALL_PLUGINS=grafana-kairosdb-datasource
+      - SERVICE_NAME=grafana
+
+volumes:
+ grafanadata:
+ cassandradata:
+ kairosdata:
+ kairoslog:
+ 
