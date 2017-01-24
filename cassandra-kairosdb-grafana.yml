@@ -33,7 +33,7 @@ services:
       - SERVICE_NAME=kairosdb
 
   collectd:
-    build: stakater/collectd
+    build: stakater/collectd-with-consul-template
 
   grafana:
     image: stakater/grafana-with-consul-template
