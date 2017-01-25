@@ -9,8 +9,7 @@ services:
       - cassandradata:/var/lib/cassandra
     ports:
       - 7199:7199
-    expose:
-      - 9160
+      - 9160:9160
     environment:
       - CASSANDRA_START_RPC=true
       - SERVICE_NAME=cassandra
@@ -25,8 +24,7 @@ services:
       - ~/shared/templates/kairosdb-templates:/templates
     ports:
       - 8080:8080
-    expose:
-      - 4242
+      - 4242:4242
     environment:
       - REPFACTOR=1
       - PORT_TELNET=4242

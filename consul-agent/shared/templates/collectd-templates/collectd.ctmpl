@@ -54,7 +54,7 @@ LoadPlugin interface
     Import "dockerplugin"
 
     <Module "kairosdb_writer">
-        KairosDBURI [{{range $index, $service := service "kairosdb"}}{{if ne $index 0}},{{end}}"\"telnet://{{.Address}}:{{.Port}}\""{{end}}]
+        KairosDBURI [{{range $index, $service := service "kairosdb-4242"}}{{if ne $index 0}},{{end}}"\"telnet://{{.Address}}:{{.Port}}\""{{end}}]
         LowercaseMetricNames true
         TypesDB "/usr/share/collectd/types.db"
         AddHostTag true
